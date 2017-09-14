@@ -1,0 +1,59 @@
+@import "normalize";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+$base-color: #303F9F;
+$second-color: #3F51B5;
+$third-color: #FBC02D;
+$site: #3a5d9f;
+$light: #fff;
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
+  background-color: $base-color;
+  .heading {
+    font-size: 62px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $third-color;
+  }
+  .wrap {
+    text-align: center;
+
+    .SMS {
+      ul {
+        max-height:  500px;
+        height: 100%;
+        background-color: $second-color;
+        padding: 10px;
+        border-radius: 20px;
+        width: 100%;
+        li {
+          display: flex;
+          flex-direction: column;
+          padding: 10px 20px;
+          margin: 30px 0;
+          border-radius: 20px;
+          border: 1px solid #bdf5ff;
+          color: $light;
+          p {
+            display: flex;
+            justify-content: flex-start;
+          }
+          .info {
+            display: flex;
+            justify-content: flex-end;
+            * {
+              padding: 5px;
+            }
+          }
+        }
+      }
+    }
+    .Adding{
+      form {}
+    }
+  }
+}
