@@ -5,7 +5,6 @@ let io = require('socket.io')(http);
 const path = require('path');
 app.use(express.static( __dirname + '/../dist'));
 
-
 app.get('/', function (req, res) {
       res.sendFile(path.resolve('../dist/index.html'))
 });
@@ -20,20 +19,3 @@ io.on('connection', function (socket) {
         io.emit('receive-message', data);
     })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@ class App extends Component {
         this.handleSend = this.handleSend.bind(this);
         this.state = {
             messages: [],
-            socket: window.io('https://vamosgs.github.io/chat-io/dist/')
+            socket: window.io('http://localhost:3000/')
         };
     }
 

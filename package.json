@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --hot -d --config webpack.config.js --content-base public/ --progress --colors",
+    "start":"node app.js",
+    "startFront": "webpack-dev-server --hot -d --config webpack.config.js --content-base public/ --progress --colors",
     "build": "webpack -w"
   },
   "author": "Gegham Samvelyan",
