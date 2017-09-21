@@ -1,10 +1,11 @@
 @import "normalize";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+
 $base-color: #303F9F;
 $second-color: #3F51B5;
 $third-color: #FBC02D;
 $site: #3a5d9f;
-$light: #fff;
+$light: #ebf7e8;
 
 body {
   height: 100vh;
@@ -12,48 +13,193 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Roboto', sans-serif;
-  background-color: $base-color;
+  background: linear-gradient(60deg, #77c6ff, #9a43ff);
   .heading {
     font-size: 62px;
     font-weight: bold;
     text-transform: uppercase;
-    color: $third-color;
+    color: $light;
+    text-align: center;
+    margin: auto;
+    max-width: 70%;
+    &.max-width {
+      max-width: 100%;
+    }
   }
   .wrap {
     text-align: center;
-
-    .SMS {
-      ul {
-        max-height:  500px;
-        height: 100%;
-        background-color: $second-color;
-        padding: 10px;
-        border-radius: 20px;
-        width: 100%;
-        li {
-          display: flex;
-          flex-direction: column;
-          padding: 10px 20px;
-          margin: 30px 0;
-          border-radius: 20px;
-          border: 1px solid #bdf5ff;
-          color: $light;
-          p {
-            display: flex;
-            justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    .new-user {
+      form {
+        margin-top: 50px;
+        input {
+          background: transparent;
+          border: none;
+          font-size: 30px;
+          text-align: center;
+          color: #9a43ff;
+          text-transform: lowercase;
+          width: 40%;
+          &::placeholder {
+            color: #9a43ff;
+            text-transform: none;
           }
-          .info {
+        }
+        button {
+          background: none;
+          border: none;
+          color: #9a43ff;
+          font-size: 50px;
+          cursor: pointer;
+        }
+      }
+    }
+    .flex {
+      display: flex;
+      width: 100vw;
+      justify-content: center;
+      .onlineUsers {
+        width: 20%;
+        height: 50vh;
+        h1 {
+          font-weight: bold;
+          text-transform: uppercase;
+          color: $light;
+          text-align: center;
+        }
+        ul {
+          height: 50vh;
+          border-radius: 10px;
+          overflow: auto;
+          margin: 10px;
+          background-color: #3a5d9f;
+          &::-webkit-scrollbar
+          {
+            width: 10px;
+            border-radius: 20px;
+            //background-color: #3a5d9f;
+            background: none;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: #3c84c8;
+            border-radius: 20px;
+          }
+          li {
+            padding: 5px 10px;
+            color: $light;
+            margin: 10px 0;
+          }
+        }
+      }
+      .SMS {
+        width: 70%;
+
+        ul {
+          height: 55vh;
+          background-color: $second-color;
+          padding: 10px;
+          border-radius: 20px;
+          overflow-y: auto;
+          width: 100%;
+          &::-webkit-scrollbar
+          {
+            width: 10px;
+            border-radius: 20px;
+            //background-color: #3a5d9f;
+            background: none;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: #3c84c8;
+            border-radius: 20px;
+          }
+          li {
             display: flex;
-            justify-content: flex-end;
-            * {
-              padding: 5px;
+            flex-direction: column;
+            padding: 10px 20px;
+            margin: 30px 0;
+            border-radius: 20px;
+            border: 1px solid #bdf5ff;
+            color: $light;
+            p {
+              display: flex;
+              justify-content: flex-start;
+            }
+            .info {
+              display: flex;
+              justify-content: flex-end;
+              * {
+                padding: 5px;
+              }
             }
           }
         }
       }
     }
-    .Adding{
-      form {}
+
+    .Adding {
+      form {
+        position: relative;
+        div {
+          display: inline-block;
+
+        table {
+          &.open {
+            opacity: 1;
+            display: block;
+          }
+          display: none;
+          opacity: 0;
+          transition: .5s;
+          position: absolute;
+          top: -270%;
+          right: 0;
+          background: rgba(#ffffff, .8);
+          padding: 20px;
+          border-radius: 5px;
+          border-collapse: collapse;
+          tr {
+            border-collapse: collapse;
+            padding: 15px;
+            td {
+              border-collapse: collapse;
+              padding: 15px;
+              font-size: 20px;
+              cursor: pointer;
+            }
+          }
+        }
+        }
+        input{
+          width: 80%;
+          border: none;
+          background: none;
+          height: 50px;
+          border-bottom: 2px solid $light;
+          color: #ffffff;
+          font-size: 24px;
+          &::placeholder{
+            color: #afafaf;
+          }
+        }
+        button, svg {
+          background: none;
+          font-size: 40px;
+          color: #fff;
+          border: none;
+          cursor: pointer;
+          transition: .6s;
+          &:hover {
+            color: #c9c9c9;
+            table{
+              opacity: 1;
+              display: block;
+            }
+          }
+        }
+      }
     }
   }
 }
