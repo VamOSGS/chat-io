@@ -31580,6 +31580,7 @@ var App = function (_Component) {
         _this.handleEmojiON = _this.handleEmojiON.bind(_this);
         _this.handleEmojiOFF = _this.handleEmojiOFF.bind(_this);
         _this.setEmoji = _this.setEmoji.bind(_this);
+
         _this.state = {
             reigistred: false,
             messages: [],
@@ -31596,8 +31597,17 @@ var App = function (_Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            this.state.socket.on("receive-message", function (data) {
-                _this2.setState({ messages: [].concat(_toConsumableArray(_this2.state.messages), [data]) });
+            this.state.socket.on("receive-message", function (messages) {
+                var today = new Date(),
+                    date = today.getHours() + '։' + today.getMinutes();
+                console.log(date);
+                _this2.setState({ messages: [].concat(_toConsumableArray(_this2.state.messages), [{ time: date, message: messages.message, user: messages.users.name }, messages.message]) });
+            });
+            this.state.socket.on("receive-user", function (usersObj) {
+                console.log(usersObj);
+                _this2.setState({
+                    users: usersObj
+                });
             });
         }
     }, {
@@ -31613,25 +31623,18 @@ var App = function (_Component) {
     }, {
         key: 'setEmoji',
         value: function setEmoji(e) {
-            var emoji = e.target;
+            e.preventDefault();
+            this.messageInput.value += e.target.value;
         }
     }, {
         key: 'register',
         value: function register(e) {
-            var _this3 = this;
-
             e.preventDefault();
             var user = this.registerInput.value;
             if (user) {
                 this.state.socket.emit("new-user", user);
                 this.setState({
                     reigistred: true
-                });
-                this.state.socket.on("receive-user", function (usersObj) {
-                    console.log(usersObj);
-                    _this3.setState({
-                        users: usersObj
-                    });
                 });
             }
         }
@@ -31644,25 +31647,26 @@ var App = function (_Component) {
                 this.state.socket.emit("new-message", text);
             }
             this.messageInput.value = null;
-            console.log(this.state.users);
+            this.board.scrollTop = this.board.scrollHeight + 100;
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
+            console.log(this.state.messages.pop());
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
-                    'h1',
-                    { className: this.state.reigistred ? 'heading max-width' : 'heading' },
-                    this.state.reigistred ? '' : 'Welcome to',
-                    ' chat-IO'
-                ),
-                _react2.default.createElement(
                     'div',
-                    { className: 'wrap' },
+                    { className: this.state.reigistred ? 'wrap active' : 'wrap' },
+                    _react2.default.createElement(
+                        'h1',
+                        { className: this.state.reigistred ? 'heading max-width' : 'heading' },
+                        this.state.reigistred ? '' : 'Welcome to',
+                        ' chat-IO'
+                    ),
                     this.state.reigistred ? _react2.default.createElement(
                         'div',
                         { className: 'registred' },
@@ -31694,7 +31698,9 @@ var App = function (_Component) {
                                 { className: 'SMS' },
                                 _react2.default.createElement(
                                     'ul',
-                                    null,
+                                    { ref: function ref(ul) {
+                                            _this3.board = ul;
+                                        } },
                                     this.state.messages.map(function (message, i) {
                                         return _react2.default.createElement(
                                             'li',
@@ -31702,7 +31708,7 @@ var App = function (_Component) {
                                             _react2.default.createElement(
                                                 'p',
                                                 null,
-                                                message
+                                                message.message
                                             ),
                                             _react2.default.createElement(
                                                 'div',
@@ -31710,14 +31716,12 @@ var App = function (_Component) {
                                                 _react2.default.createElement(
                                                     'h2',
                                                     null,
-                                                    'username'
+                                                    _this3.state.messages[i].user
                                                 ),
                                                 _react2.default.createElement(
                                                     'span',
                                                     null,
-                                                    new Date().getHours().toString(),
-                                                    ':',
-                                                    new Date().getMinutes().toString()
+                                                    message.time
                                                 )
                                             )
                                         );
@@ -31730,7 +31734,7 @@ var App = function (_Component) {
                                         'form',
                                         { onSubmit: this.handleSend },
                                         _react2.default.createElement('input', { type: 'text', ref: function ref(input) {
-                                                _this4.messageInput = input;
+                                                _this3.messageInput = input;
                                             },
                                             placeholder: 'Message...'
                                         }),
@@ -31741,7 +31745,7 @@ var App = function (_Component) {
                                             _react2.default.createElement(
                                                 'table',
                                                 { ref: function ref(table) {
-                                                        _this4.emojiTable = table;
+                                                        _this3.emojiTable = table;
                                                     } },
                                                 _react2.default.createElement(
                                                     'tbody',
@@ -31753,8 +31757,10 @@ var App = function (_Component) {
                                                             arr.map(function (emoj, i) {
                                                                 return _react2.default.createElement(
                                                                     'td',
-                                                                    { value: emoj, onClick: _this4.setEmoji, key: i },
-                                                                    emoj
+                                                                    { key: i },
+                                                                    _react2.default.createElement('input', { type: 'button', className: 'noDef', value: emoj, onClick: function onClick(e) {
+                                                                            return _this3.setEmoji(e);
+                                                                        } })
                                                                 );
                                                             })
                                                         );
@@ -31780,7 +31786,7 @@ var App = function (_Component) {
                             'form',
                             { onSubmit: this.register },
                             _react2.default.createElement('input', { type: 'text', ref: function ref(input) {
-                                    _this4.registerInput = input;
+                                    _this3.registerInput = input;
                                 },
                                 placeholder: 'Pick a nickname'
                             }),

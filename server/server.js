@@ -14,21 +14,34 @@ http.listen(process.env.PORT || 3000, function(){
 });
 
 io.on('connection', function (socket) {
-    // console.log('connected');
+    console.log("Connected Socket  " + socket.id)
     io.emit('get-users', users);
     socket.on('new-user', function (username) {
         users = [...users, {
             name: username,
-            id: '1'
+            i: users.length,
+            id:  socket.id
         }];
         io.emit('receive-user', users);
-        console.log(users)
-    });
-    socket.on('new-message', function (data) {
-        io.emit('receive-message', data);
     });
 
-    socket.on('disconnect', function(){
-        console.log(io);
+    socket.on('new-message', function (data) {
+        function getUser(base) {
+            return base.id === socket.id;
+        }
+        let messages = {
+            message: data,
+            users: users.find(getUser)
+        };
+        // messages.shift();
+        io.emit('receive-message', messages);
+    });
+
+    socket.on('disconnect', function() {
+        users.map( (oldUser, i) => { if (oldUser.id == socket.id) {
+            users.splice(oldUser.i, 1)
+        }} )
+        console.log("Disconnected Socket  " + socket.id)
+        io.emit('receive-user', users);
     });
 });
