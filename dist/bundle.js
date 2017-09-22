@@ -31647,7 +31647,8 @@ var App = function (_Component) {
                 this.state.socket.emit("new-message", text);
             }
             this.messageInput.value = null;
-            this.board.scrollTop = this.board.scrollHeight + 100;
+            this.board.scrollTop = 500;
+            console.log(this.board);
         }
     }, {
         key: 'render',
