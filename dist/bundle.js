@@ -31644,7 +31644,7 @@ var App = function (_Component) {
             messages: [],
             users: [],
             emojiOpen: false,
-            emojis: [['😀', '😃', '😂'], ['😍', '😘', '😏'], ['😐', '😑', '😯']],
+            emojis: [['😀', '😃', '😂'], ['😍', '😘', '😏'], ['😐', '😑', '😯'], [' 👍', '👎', '👆']],
             socket: window.io()
         };
         return _this;
@@ -31776,6 +31776,31 @@ var App = function (_Component) {
                                             )
                                         );
                                     })
+                                ),
+                                _react2.default.createElement(
+                                    'table',
+                                    { ref: function ref(table) {
+                                            _this3.emojiTable = table;
+                                        } },
+                                    _react2.default.createElement(
+                                        'tbody',
+                                        null,
+                                        this.state.emojis.map(function (arr, i) {
+                                            return _react2.default.createElement(
+                                                'tr',
+                                                { key: i },
+                                                arr.map(function (emoj, i) {
+                                                    return _react2.default.createElement(
+                                                        'td',
+                                                        { key: i },
+                                                        _react2.default.createElement('input', { type: 'button', className: 'noDef', value: emoj, onClick: function onClick(e) {
+                                                                return _this3.setEmoji(e);
+                                                            } })
+                                                    );
+                                                })
+                                            );
+                                        })
+                                    )
                                 ),
                                 _react2.default.createElement(
                                     'div',

@@ -15,7 +15,7 @@ class App extends Component {
             messages: [],
             users: [],
             emojiOpen: false,
-            emojis: [['😀','😃','😂'],['😍','😘','😏'],['😐','😑','😯']],
+            emojis: [['😀','😃','😂'],['😍','😘','😏'],['😐','😑','😯'],[' 👍','👎','👆']],
             socket: window.io()
         };
     }
@@ -86,6 +86,14 @@ class App extends Component {
                                         </div>
                                     </li>)}
                                 </ul>
+                                <table ref={(table) => {
+                                    this.emojiTable = table;
+                                }}>
+                                    <tbody>
+                                    {this.state.emojis.map((arr,i ) => <tr key={i}>{arr.map((emoj,i) => <td   key={i}>
+                                        <input type="button" className={'noDef'} value={emoj} onClick={(e) => this.setEmoji(e)}/></td>)}</tr>)}
+                                    </tbody>
+                                </table>
                                 <div className='Adding'>
                                     <form onSubmit={this.handleSend}>
                                         <input type="text" ref={(input) => {

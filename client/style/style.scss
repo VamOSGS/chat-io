@@ -9,6 +9,7 @@ $light: #ebf7e8;
 
 body {
   height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,7 +117,47 @@ body {
       }
       .SMS {
         width: 70%;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        table {
+          //display: block;
 
+          box-shadow: 0px 0px 40px -9px rgba(0,0,0,0.75);
+          input {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            transition: opacity .5s ease-out ;
+          }
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s linear .2s, opacity .2s linear;
+          position: absolute;
+          z-index: 3;
+          bottom: 60px;
+          right: 0;
+          background: rgba(#ffffff, .8);
+          padding: 20px;
+          border-radius: 5px;
+          border-collapse: collapse;
+          &.open {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s, opacity .3s linear;
+          }
+          tr {
+            border-collapse: collapse;
+            padding: 15px;
+            td {
+              border-collapse: collapse;
+              padding: 15px;
+              font-size: 20px;
+              cursor: pointer;
+            }
+          }
+        }
         ul {
           height: 55vh;
           border-style: solid;
@@ -134,8 +175,7 @@ body {
             background: none;
           }
           &::-webkit-scrollbar-thumb {
-            background-color: #3c84c8;
-            border-radius: 20px;
+            background-color: #6c59c8;
           }
           li {
             display: flex;
@@ -146,6 +186,7 @@ body {
             border: 1px solid #bdf5ff;
             p {
               display: flex;
+              font-size: 18px;
               justify-content: flex-start;
             }
             .info {
@@ -166,32 +207,7 @@ body {
         div {
           display: inline-block;
 
-        table {
-          &.open {
-            opacity: 1;
-            display: block;
-          }
-          display: none;
-          opacity: 0;
-          transition: .5s;
-          position: absolute;
-          top: -370%;
-          right: 0;
-          background: rgba(#ffffff, .8);
-          padding: 20px;
-          border-radius: 5px;
-          border-collapse: collapse;
-          tr {
-            border-collapse: collapse;
-            padding: 15px;
-            td {
-              border-collapse: collapse;
-              padding: 15px;
-              font-size: 20px;
-              cursor: pointer;
-            }
-          }
-        }
+
         }
         input{
           &.noDef {
