@@ -16,7 +16,7 @@ class App extends Component {
             users: [],
             emojiOpen: false,
             emojis: [['😀','😃','😂'],['😍','😘','😏'],['😐','😑','😯']],
-            socket: window.io('http://localhost:3000/')
+            socket: window.io()
         };
     }
 
