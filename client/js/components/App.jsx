@@ -1,36 +1,47 @@
 import React, {Component} from 'react';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import FaSmileO from 'react-icons/lib/fa/smile-o';
+import Preloader from './Preloader.jsx';
+import Overlay from './Overlay.jsx';
+
 class App extends Component {
     constructor(props) {
         super(props);
         this.handleSend = this.handleSend.bind(this);
         this.register = this.register.bind(this);
         this.handleEmoji = this.handleEmoji.bind(this);
-
         this.setEmoji = this.setEmoji.bind(this);
-
+        this.handleTheme = this.handleTheme.bind(this);
         this.state = {
+            load: false,
             reigistred: false,
             messages: [],
             users: [],
             emojiOpen: false,
-            emojis: [['😀','😃','😂'],['😍','😘','😏'],['😐','😑','😯'],[' 👍','👎','👆']],
+            emojis: [['😀', '😃', '😂'], ['😍', '😘', '😏'], ['😐', '😑', '😯'], [' 👍', '👎', '👆']],
             socket: window.io()
         };
     }
 
     componentDidMount() {
-        this.state.socket.on("receive-message",  messages => {
+        this.state.socket.on("receive-message", messages => {
             let today = new Date(),
-                date =  today.getHours() + '։' + today.getMinutes() ;
-            this.setState({messages: [...this.state.messages, {time: date, message: messages.message, user: messages.users.name }]})
+                date = today.getHours() + '։' + today.getMinutes();
+            this.setState({
+                messages: [...this.state.messages, {
+                    time: date,
+                    message: messages.message,
+                    user: messages.users.name
+                }]
+            })
         });
-        this.state.socket.on("receive-user",  usersObj => {
+        this.state.socket.on("receive-user", usersObj => {
             this.setState({
                 users: usersObj
             })
         });
+        setTimeout(()=>{this.setState({load: true})},1200)
+
     }
     handleEmoji() {
         this.emojiTable.classList.toggle('open')
@@ -40,7 +51,10 @@ class App extends Component {
         e.preventDefault();
         this.messageInput.value += e.target.value;
     }
-    register (e) {
+    handleTheme() {
+        document.body.classList.toggle('night');
+    }
+    register(e) {
         e.preventDefault();
         let user = this.registerInput.value;
         if (user) {
@@ -65,23 +79,25 @@ class App extends Component {
     render() {
         return (
             <div>
-                <div className={this.state.reigistred ?'wrap active' : 'wrap'}>
-                    <h1 className={ this.state.reigistred ? 'heading max-width' : 'heading' }>{this.state.reigistred ? '' : 'Welcome to' } chat-IO</h1>
-                    {this.state.reigistred ?  <div className={'registred'}>
+                {this.state.load ? <div ref={'wrap'}  className={this.state.reigistred ? 'wrap active' : 'wrap'}>
+                    <h1 className={this.state.reigistred ? 'heading max-width' : 'heading'}>{this.state.reigistred ? '' : 'Welcome to '}
+                        chat-IO</h1>
+                    {this.state.reigistred ? <div className={'registred'}>
+                        <Overlay handleTheme={this.handleTheme}/>
                         <div className={'flex'}>
                             <div className={'onlineUsers'}>
                                 <h1>Online Users</h1>
                                 <ul>
-                                    {this.state.users.map(( obj, i) => <li key={i}>{ obj.name }</li>)}
+                                    {this.state.users.map((obj, i) => <li key={i}>{obj.name}</li>)}
                                 </ul>
                             </div>
                             <div className='SMS'>
                                 <ul ref={(ul) => {
                                     this.board = ul;
-                                }} >
+                                }}>
                                     {this.state.messages.map((message, i) => <li key={i}>
                                         <p>{message.message}</p>
-                                        <div className={'info'}><h2>{ this.state.messages[i].user }</h2>
+                                        <div className={'info'}><h2>{this.state.messages[i].user}</h2>
                                             <span>{message.time}</span>
                                         </div>
                                     </li>)}
@@ -90,8 +106,9 @@ class App extends Component {
                                     this.emojiTable = table;
                                 }}>
                                     <tbody>
-                                    {this.state.emojis.map((arr,i ) => <tr key={i}>{arr.map((emoj,i) => <td   key={i}>
-                                        <input type="button" className={'noDef'} value={emoj} onClick={(e) => this.setEmoji(e)}/></td>)}</tr>)}
+                                    {this.state.emojis.map((arr, i) => <tr key={i}>{arr.map((emoj, i) => <td key={i}>
+                                        <input type="button" className={'noDef'} value={emoj}
+                                               onClick={(e) => this.setEmoji(e)}/></td>)}</tr>)}
                                     </tbody>
                                 </table>
                                 <div className='Adding'>
@@ -99,30 +116,31 @@ class App extends Component {
                                         <input type="text" ref={(input) => {
                                             this.messageInput = input;
                                         }}
-                                         placeholder={'Message...'}
+                                               placeholder={'Message...'}
                                         />
-                                        <div >
+                                        <div>
 
                                             <FaSmileO onClick={this.handleEmoji}/>
                                         </div>
-                                        <button> <MdArrowForward /></button>
+                                        <button><MdArrowForward/></button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div> :   <div className={'new-user'}>
+                    </div> : <div className={'new-user'}>
                         <form onSubmit={this.register}>
                             <input type="text" ref={(input) => {
                                 this.registerInput = input;
                             }}
-                             placeholder={'Pick a nickname'}
+                                   placeholder={'Pick a nickname'}
                             />
-                            <button> <MdArrowForward /> </button>
+                            <button><MdArrowForward/></button>
                         </form>
                     </div>}
 
 
-                </div>
+                </div>   : <Preloader/> }
+
             </div>
         );
     }

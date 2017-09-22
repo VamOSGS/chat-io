@@ -1,4 +1,5 @@
 @import "normalize";
+@import "preloader";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 $base-color: #303F9F;
@@ -14,7 +15,27 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Roboto', sans-serif;
-  background-image: linear-gradient(60deg, #77c6ff, #9a43ff);
+  background: linear-gradient(60deg, #77c6ff, #9a43ff);
+
+  transition: .8s;
+  &.night {
+    background: #f7f7f7;
+    .wrap.active {
+      background: #222222;
+      .Overlay {
+        .up {
+          color: #f7f7f7;
+        }
+      }
+      .flex {
+        .onlineUsers {
+          order-style: solid;
+          border-width: 2px;
+          border-image: linear-gradient(60deg, #77c6ff, #d8f8ff) 2 round
+        }
+      }
+    }
+  }
   .wrap {
     text-align: center;
     display: flex;
@@ -22,7 +43,36 @@ body {
     align-items: center;
     flex-direction: column;
     width: 100vw;
+
+    .Overlay {
+      font-size: 30px;
+      position: absolute;
+      bottom: 5vh;
+      left: 5vw;
+      .up {
+        position: relative;
+        color: #9a43ff;
+        z-index: 1;
+        padding: 10px;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-style: solid;
+          border-width: 2px;
+          border-image: linear-gradient(60deg, #77c6ff, #9a43ff) 2 round
+        }
+        cursor: pointer;
+      }
+    }
     .heading {
+      animation: headingAnim .9s ease-out;
       font-size: 62px;
       font-weight: bold;
       text-transform: uppercase;
@@ -43,9 +93,9 @@ body {
       background: #f7f7f7;
 
       .heading {
+        animation: fade-in .6s ease-in;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        //animation: hue 10s infinite linear;
         background-image: -webkit-linear-gradient(60deg, #77c6ff, #9a43ff);
       }
     }
@@ -53,12 +103,12 @@ body {
       form {
         margin-top: 50px;
         input {
+          animation: newUser .8s ease-in;
           background: transparent;
           border: none;
           font-size: 30px;
           text-align: center;
           color: #9a43ff;
-          text-transform: lowercase;
           width: 55%;
           &::placeholder {
             color: #9a43ff;
@@ -66,11 +116,16 @@ body {
           }
         }
         button {
+          animation: newUser 1s ease-in;
           background: none;
           border: none;
           color: #9a43ff;
+          transition: .3s;
           font-size: 50px;
           cursor: pointer;
+          &:hover {
+            color: #7039ca;
+          }
         }
       }
     }
@@ -79,6 +134,7 @@ body {
       width: 100vw;
       justify-content: center;
       .onlineUsers {
+        animation: fade-in .9s ease-in;
         width: 20%;
         height: 50vh;
         h1 {
@@ -86,7 +142,6 @@ body {
           text-transform: uppercase;
           color: $light;
           text-align: center;
-          //animation: hue 10s infinite linear;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-image: linear-gradient(60deg, #77c6ff, #9a43ff);
@@ -95,14 +150,11 @@ body {
           height: 50vh;
           overflow: auto;
           margin: 10px;
-          //background-color: #3a5d9f;
           border-style: solid;
-          border-width: 8PX;
-          border-image:  linear-gradient(60deg, #77c6ff, #9a43ff) 8 round;
-          &::-webkit-scrollbar
-          {
+          border-width: 8px;
+          border-image: linear-gradient(60deg, #77c6ff, #9a43ff) 8 round;
+          &::-webkit-scrollbar {
             width: 10px;
-            //background-color: #3a5d9f;
             background: none;
           }
           &::-webkit-scrollbar-thumb {
@@ -110,26 +162,24 @@ body {
           }
           li {
             padding: 5px 10px;
-            //color: $light;
             margin: 10px 0;
           }
         }
       }
       .SMS {
+        animation: fade-in 1.3s ease-in-out;
         width: 70%;
         position: relative;
         z-index: 1;
         overflow: hidden;
         table {
-          //display: block;
-
-          box-shadow: 0px 0px 40px -9px rgba(0,0,0,0.75);
+          box-shadow: 0px 0px 40px -9px rgba(0, 0, 0, 0.75);
           input {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 24px;
-            transition: opacity .5s ease-out ;
+            transition: opacity .5s ease-out;
           }
           visibility: hidden;
           opacity: 0;
@@ -161,17 +211,14 @@ body {
         ul {
           height: 55vh;
           border-style: solid;
-          border-width: 8PX;
-          border-image:  linear-gradient(60deg, #77c6ff, #9a43ff) 8 round;
+          border-width: 8px;
+          border-image: linear-gradient(60deg, #77c6ff, #9a43ff) 8 round;
           padding: 10px;
-          //border-radius: 20px;
           overflow-y: auto;
           width: 100%;
-          &::-webkit-scrollbar
-          {
+          &::-webkit-scrollbar {
             width: 10px;
             border-radius: 20px;
-            //background-color: #3a5d9f;
             background: none;
           }
           &::-webkit-scrollbar-thumb {
@@ -182,12 +229,10 @@ body {
             flex-direction: column;
             padding: 10px 20px;
             margin: 30px 0;
-            //border-radius: 20px;
             border: 1px solid #bdf5ff;
             p {
-              display: flex;
               font-size: 18px;
-              justify-content: flex-start;
+              text-align: left;
             }
             .info {
               display: flex;
@@ -202,14 +247,13 @@ body {
     }
 
     .Adding {
+      animation: headingAnim 1s ease-in;
       form {
         position: relative;
         div {
           display: inline-block;
-
-
         }
-        input{
+        input {
           &.noDef {
             border: none;
             width: auto;
@@ -220,10 +264,10 @@ body {
           border: none;
           background: none;
           height: 50px;
-          border-bottom: 2px solid ;
-          border-image:  linear-gradient(60deg, #77c6ff, #9a43ff) 2 round;
+          border-bottom: 2px solid;
+          border-image: linear-gradient(60deg, #77c6ff, #9a43ff) 2 round;
           font-size: 24px;
-          &::placeholder{
+          &::placeholder {
             color: #afafaf;
           }
         }
@@ -235,10 +279,44 @@ body {
           cursor: pointer;
           transition: .6s;
           &:hover {
-            color: #c9c9c9;
-            table{
-              opacity: 1;
-              display: block;
+            color: #7039ca;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  body {
+    .wrap {
+      .heading {
+        font-size: 52px;
+      }
+      .Adding {
+        padding: 10px 0 20px;
+        form {
+          svg {
+            font-size: 33px;
+          }
+        }
+      }
+      .flex {
+        flex-direction: column-reverse;
+        align-items: center;
+        .onlineUsers {
+          height: 20vh;
+          width: 70%;
+          margin-top: 15px;
+          h1 {
+            text-align: left;
+          }
+          ul {
+            height: 15vh;
+            width: 100%;
+            margin: 0;
+            li {
+              text-align: left;
             }
           }
         }
@@ -246,11 +324,68 @@ body {
     }
   }
 }
+@media only screen and (max-width: 568px) {
+  body {
+    .wrap {
+      .heading {
+        font-size: 46px;
+      }
+      .Adding {
+        padding: 0;
+        form {
+          svg {
+            font-size: 26px;
+          }
+          input {
+            font-size: 22px;
+            width: 70%;
+          }
+        }
+      }
+    }}
+}
+@keyframes headingAnim {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes hue {
   from {
-   filter: hue-rotate(0deg);
+    filter: hue-rotate(0deg);
   }
   to {
-   filter: hue-rotate(360deg);
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes newUser {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
