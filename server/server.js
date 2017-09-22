@@ -33,7 +33,6 @@ io.on('connection', function (socket) {
             message: data,
             users: users.find(getUser)
         };
-        // messages.shift();
         io.emit('receive-message', messages);
     });
 

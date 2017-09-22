@@ -6,8 +6,8 @@ class App extends Component {
         super(props);
         this.handleSend = this.handleSend.bind(this);
         this.register = this.register.bind(this);
-        this.handleEmojiON = this.handleEmojiON.bind(this);
-        this.handleEmojiOFF = this.handleEmojiOFF.bind(this);
+        this.handleEmoji = this.handleEmoji.bind(this);
+
         this.setEmoji = this.setEmoji.bind(this);
 
         this.state = {
@@ -24,22 +24,18 @@ class App extends Component {
         this.state.socket.on("receive-message",  messages => {
             let today = new Date(),
                 date =  today.getHours() + '։' + today.getMinutes() ;
-            console.log(date)
-            this.setState({messages: [...this.state.messages, {time: date, message: messages.message, user: messages.users.name }, messages.message]})
+            this.setState({messages: [...this.state.messages, {time: date, message: messages.message, user: messages.users.name }]})
         });
         this.state.socket.on("receive-user",  usersObj => {
-            console.log(usersObj)
             this.setState({
                 users: usersObj
             })
         });
     }
-    handleEmojiON() {
-        this.emojiTable.classList.add('open')
+    handleEmoji() {
+        this.emojiTable.classList.toggle('open')
     }
-    handleEmojiOFF() {
-        this.emojiTable.classList.remove('open')
-    }
+
     setEmoji(e) {
         e.preventDefault();
         this.messageInput.value += e.target.value;
@@ -62,13 +58,11 @@ class App extends Component {
             this.state.socket.emit("new-message", text);
         }
         this.messageInput.value = null;
-        this.board.scrollTop = 500;
-        console.log(this.board)
+        this.board.scrollTop = this.board.scrollHeight;
     }
 
 
     render() {
-        console.log(this.state.messages.pop())
         return (
             <div>
                 <div className={this.state.reigistred ?'wrap active' : 'wrap'}>
@@ -99,17 +93,9 @@ class App extends Component {
                                         }}
                                          placeholder={'Message...'}
                                         />
-                                        <div onMouseEnter={this.handleEmojiON}
-                                             onMouseLeave={this.handleEmojiOFF}>
-                                            <table ref={(table) => {
-                                                this.emojiTable = table;
-                                            }}>
-                                                <tbody>
-                                                {this.state.emojis.map((arr,i ) => <tr key={i}>{arr.map((emoj,i) => <td   key={i}>
-                                                    <input type="button" className={'noDef'} value={emoj} onClick={(e) => this.setEmoji(e)}/></td>)}</tr>)}
-                                                </tbody>
-                                            </table>
-                                            <FaSmileO />
+                                        <div >
+
+                                            <FaSmileO onClick={this.handleEmoji}/>
                                         </div>
                                         <button> <MdArrowForward /></button>
                                     </form>

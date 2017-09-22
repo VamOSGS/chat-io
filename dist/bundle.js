@@ -31635,8 +31635,8 @@ var App = function (_Component) {
 
         _this.handleSend = _this.handleSend.bind(_this);
         _this.register = _this.register.bind(_this);
-        _this.handleEmojiON = _this.handleEmojiON.bind(_this);
-        _this.handleEmojiOFF = _this.handleEmojiOFF.bind(_this);
+        _this.handleEmoji = _this.handleEmoji.bind(_this);
+
         _this.setEmoji = _this.setEmoji.bind(_this);
 
         _this.state = {
@@ -31658,25 +31658,18 @@ var App = function (_Component) {
             this.state.socket.on("receive-message", function (messages) {
                 var today = new Date(),
                     date = today.getHours() + '։' + today.getMinutes();
-                console.log(date);
-                _this2.setState({ messages: [].concat(_toConsumableArray(_this2.state.messages), [{ time: date, message: messages.message, user: messages.users.name }, messages.message]) });
+                _this2.setState({ messages: [].concat(_toConsumableArray(_this2.state.messages), [{ time: date, message: messages.message, user: messages.users.name }]) });
             });
             this.state.socket.on("receive-user", function (usersObj) {
-                console.log(usersObj);
                 _this2.setState({
                     users: usersObj
                 });
             });
         }
     }, {
-        key: 'handleEmojiON',
-        value: function handleEmojiON() {
-            this.emojiTable.classList.add('open');
-        }
-    }, {
-        key: 'handleEmojiOFF',
-        value: function handleEmojiOFF() {
-            this.emojiTable.classList.remove('open');
+        key: 'handleEmoji',
+        value: function handleEmoji() {
+            this.emojiTable.classList.toggle('open');
         }
     }, {
         key: 'setEmoji',
@@ -31705,15 +31698,13 @@ var App = function (_Component) {
                 this.state.socket.emit("new-message", text);
             }
             this.messageInput.value = null;
-            this.board.scrollTop = 500;
-            console.log(this.board);
+            this.board.scrollTop = this.board.scrollHeight;
         }
     }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
 
-            console.log(this.state.messages.pop());
             return _react2.default.createElement(
                 'div',
                 null,
@@ -31799,34 +31790,8 @@ var App = function (_Component) {
                                         }),
                                         _react2.default.createElement(
                                             'div',
-                                            { onMouseEnter: this.handleEmojiON,
-                                                onMouseLeave: this.handleEmojiOFF },
-                                            _react2.default.createElement(
-                                                'table',
-                                                { ref: function ref(table) {
-                                                        _this3.emojiTable = table;
-                                                    } },
-                                                _react2.default.createElement(
-                                                    'tbody',
-                                                    null,
-                                                    this.state.emojis.map(function (arr, i) {
-                                                        return _react2.default.createElement(
-                                                            'tr',
-                                                            { key: i },
-                                                            arr.map(function (emoj, i) {
-                                                                return _react2.default.createElement(
-                                                                    'td',
-                                                                    { key: i },
-                                                                    _react2.default.createElement('input', { type: 'button', className: 'noDef', value: emoj, onClick: function onClick(e) {
-                                                                            return _this3.setEmoji(e);
-                                                                        } })
-                                                                );
-                                                            })
-                                                        );
-                                                    })
-                                                )
-                                            ),
-                                            _react2.default.createElement(_smileO2.default, null)
+                                            null,
+                                            _react2.default.createElement(_smileO2.default, { onClick: this.handleEmoji })
                                         ),
                                         _react2.default.createElement(
                                             'button',
