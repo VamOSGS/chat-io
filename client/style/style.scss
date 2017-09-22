@@ -17,23 +17,73 @@ body {
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(60deg, #77c6ff, #9a43ff);
 
-  transition: .8s;
   &.night {
-    background: #f7f7f7;
-    .wrap.active {
-      background: #222222;
-      .Overlay {
-        .up {
-          color: #f7f7f7;
+    background: #2d2d2d;
+    .wrap {
+      .Adding {
+        form {
+          svg {
+            color: #61dafb;
+            &:hover {
+              color: #397dc4;
+            }
+          }
+          input {
+            border-image: none;
+            border-bottom-color: #2d2d2d;
+            color: #CC7A6F;
+          }
         }
       }
       .flex {
         .onlineUsers {
-          order-style: solid;
-          border-width: 2px;
-          border-image: linear-gradient(60deg, #77c6ff, #d8f8ff) 2 round
+          h1 {
+            -webkit-text-fill-color: #61dafb;
+          }
+          ul {
+            border-image: none;
+            border-color: #2d2d2d;
+            &::-webkit-scrollbar-thumb {
+              background: #333;
+            }
+            li {
+              color: #CC7A6F;
+            }
+          }
+
+        }
+        .SMS ul {
+          border-image: none;
+          border-color: #2d2d2d;
+          &::-webkit-scrollbar-thumb {
+            background: #333;
+          }
+          li {
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            p {
+              color: #CC7A6F;
+            }
+            .info {
+              color: #b16159;
+            }
+          }
         }
       }
+    }
+    .wrap.active {
+      background: #222222;
+      .heading {
+        -webkit-text-fill-color: #61dafb;
+      }
+      .Overlay {
+        .up {
+          color: #61dafb;
+          &:before {
+            border-image: none;
+            border-color: #61dafb;
+          }
+        }
+        }
     }
   }
   .wrap {
@@ -324,6 +374,7 @@ body {
     }
   }
 }
+
 @media only screen and (max-width: 568px) {
   body {
     .wrap {
@@ -342,8 +393,10 @@ body {
           }
         }
       }
-    }}
+    }
+  }
 }
+
 @keyframes headingAnim {
   0% {
     transform: translateY(100px);
