@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import MdArrowForward from 'react-icons/lib/md/arrow-forward';
-import FaSmileO from 'react-icons/lib/fa/smile-o';
 import Preloader from './Preloader.jsx';
 import Overlay from './Overlay.jsx';
+import NewUser from './NewUser.jsx';
+import SendMessage from './SendMessage.jsx';
+import EmojiTable from './EmojiTable.jsx';
+import MessageBoard from './MessageBoard.jsx';
+import OnlineUsers from './OnlineUsers.jsx';
 
 class App extends Component {
     constructor(props) {
@@ -12,6 +15,7 @@ class App extends Component {
         this.handleEmoji = this.handleEmoji.bind(this);
         this.setEmoji = this.setEmoji.bind(this);
         this.handleTheme = this.handleTheme.bind(this);
+
         this.state = {
             load: false,
             reigistred: false,
@@ -34,29 +38,32 @@ class App extends Component {
                     user: messages.users.name
                 }]
             })
-        });
+        })
         this.state.socket.on("receive-user", usersObj => {
             this.setState({
                 users: usersObj
             })
         });
-        setTimeout(()=>{this.setState({load: true})},1200)
-
+        setTimeout(() => {
+            this.setState({load: true})
+        }, 1200)
     }
+
     handleEmoji() {
-        this.emojiTable.classList.toggle('open')
+        document.querySelector('table').classList.toggle('open')
     }
 
     setEmoji(e) {
         e.preventDefault();
-        this.messageInput.value += e.target.value;
+        this.Send.messageInput.value += e.target.value;
     }
+
     handleTheme() {
         document.body.classList.toggle('night');
     }
-    register(e) {
+
+    register(e, user) {
         e.preventDefault();
-        let user = this.registerInput.value;
         if (user) {
             this.state.socket.emit("new-user", user);
             this.setState({
@@ -65,82 +72,65 @@ class App extends Component {
         }
     }
 
-    handleSend(e) {
+    handleSend(e, text) {
         e.preventDefault();
-        let text = this.messageInput.value;
         if (text) {
-            this.state.socket.emit("new-message", text);
+            this.state.socket.emit("new-message", text.value);
         }
-        this.messageInput.value = null;
-        this.board.scrollTop = this.board.scrollHeight;
+        text.value = null;
+        this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
     }
 
 
     render() {
         return (
             <div>
-                {this.state.load ? <div ref={'wrap'}  className={this.state.reigistred ? 'wrap active' : 'wrap'}>
-                    <h1 className={this.state.reigistred ? 'heading max-width' : 'heading'}>{this.state.reigistred ? '' : 'Welcome to '}
-                        chat-IO</h1>
+                {this.state.load ?
+
+                    <div
+                        ref={'wrap'}
+                        className={this.state.reigistred ? 'wrap active' : 'wrap'}
+                    >
+
+                    <h1 className={this.state.reigistred ?
+                        'heading max-width' :
+                        'heading'}>
+                        {this.state.reigistred ? '' : 'Welcome to '}
+                        chat-IO
+                    </h1>
+
                     {this.state.reigistred ? <div className={'registred'}>
                         <Overlay handleTheme={this.handleTheme}/>
                         <div className={'flex'}>
-                            <div className={'onlineUsers'}>
-                                <h1>Online Users</h1>
-                                <ul>
-                                    {this.state.users.map((obj, i) => <li key={i}>{obj.name}</li>)}
-                                </ul>
-                            </div>
+
+                            <OnlineUsers users={this.state.users}/>
+
                             <div className='SMS'>
-                                <ul ref={(ul) => {
-                                    this.board = ul;
-                                }}>
-                                    {this.state.messages.map((message, i) => <li key={i}>
-                                        <p>{message.message}</p>
-                                        <div className={'info'}><h2>{this.state.messages[i].user}</h2>
-                                            <span>{message.time}</span>
-                                        </div>
-                                    </li>)}
-                                </ul>
-                                <table ref={(table) => {
-                                    this.emojiTable = table;
-                                }}>
-                                    <tbody>
-                                    {this.state.emojis.map((arr, i) => <tr key={i}>{arr.map((emoj, i) => <td key={i}>
-                                        <input type="button" className={'noDef'} value={emoj}
-                                               onClick={(e) => this.setEmoji(e)}/></td>)}</tr>)}
-                                    </tbody>
-                                </table>
-                                <div className='Adding'>
-                                    <form onSubmit={this.handleSend}>
-                                        <input type="text" ref={(input) => {
-                                            this.messageInput = input;
-                                        }}
-                                               placeholder={'Message...'}
-                                        />
-                                        <div>
 
-                                            <FaSmileO onClick={this.handleEmoji}/>
-                                        </div>
-                                        <button><MdArrowForward/></button>
-                                    </form>
-                                </div>
+                                <MessageBoard
+                                    ref={MessageBoard => this.MessageBoard = MessageBoard}
+                                    messages={this.state.messages}
+                                />
+
+                                <EmojiTable
+                                    emojis={this.state.emojis}
+                                    setEmoji={this.setEmoji}
+                                />
+
+                                <SendMessage
+                                    ref={Send => this.Send = Send}
+                                    Send={this.handleSend}
+                                    AddEmoji={this.handleEmoji}
+                                />
+
                             </div>
+
                         </div>
-                    </div> : <div className={'new-user'}>
-                        <form onSubmit={this.register}>
-                            <input type="text" ref={(input) => {
-                                this.registerInput = input;
-                            }}
-                                   placeholder={'Pick a nickname'}
-                            />
-                            <button><MdArrowForward/></button>
-                        </form>
-                    </div>}
-
-
-                </div>   : <Preloader/> }
-
+                    </div> : <NewUser
+                                register={this.register}
+                                socket={this.state.socket}
+                            /> }
+                </div> : <Preloader/> }
             </div>
         );
     }

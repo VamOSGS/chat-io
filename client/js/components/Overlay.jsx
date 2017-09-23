@@ -5,9 +5,12 @@ class Overlay extends Component {
     render () {
         return  (
             <div className={'Overlay'}>
-                <div  onClick={this.props.handleTheme} className={'up'}>
-                    <GoSettings
-                    />
+                <div
+                      onClick={this.props.handleTheme}
+                      className={'up'}>
+
+                        <GoSettings/>
+
                 </div>
             </div>
         );
