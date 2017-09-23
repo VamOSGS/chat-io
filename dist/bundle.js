@@ -31727,7 +31727,7 @@ var App = function (_Component) {
         key: 'handleSend',
         value: function handleSend(e, text) {
             e.preventDefault();
-            if (text) {
+            if (text.value) {
                 this.state.socket.emit("new-message", text.value);
             }
             text.value = null;
