@@ -80,7 +80,7 @@ class App extends Component {
         text.value = null;
         setTimeout(() => {
             this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
-        }, 1)
+        }, 10)
     }
 
 

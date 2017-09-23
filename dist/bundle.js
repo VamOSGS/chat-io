@@ -31735,7 +31735,7 @@ var App = function (_Component) {
             text.value = null;
             setTimeout(function () {
                 _this3.MessageBoard.board.scrollTop = _this3.MessageBoard.board.scrollHeight;
-            }, 1);
+            }, 10);
         }
     }, {
         key: 'render',
