@@ -31695,7 +31695,6 @@ var App = function (_Component) {
                 }, 100);
             });
             this.state.socket.on("receive-user", function (usersObj) {
-
                 _this2.setState({
                     users: usersObj
                 });
@@ -31724,7 +31723,7 @@ var App = function (_Component) {
         key: 'register',
         value: function register(e) {
             e.preventDefault();
-            var user = this.registerInput.value;
+            var user = this.NewUser.registerInput.value;
             if (user) {
                 this.state.socket.emit("new-user", user);
                 this.setState({
@@ -31734,10 +31733,11 @@ var App = function (_Component) {
         }
     }, {
         key: 'handleSend',
-        value: function handleSend(e, text) {
+        value: function handleSend(e) {
             var _this3 = this;
 
             e.preventDefault();
+            var text = this.Send.messageInput;
             if (text.value) {
                 this.state.socket.emit("new-message", text.value);
             }
@@ -31796,26 +31796,9 @@ var App = function (_Component) {
                                 })
                             )
                         )
-                    ) : _react2.default.createElement(
-                        'div',
-                        { className: 'new-user' },
-                        _react2.default.createElement(
-                            'form',
-                            { onSubmit: this.register },
-                            _react2.default.createElement('input', {
-                                type: 'text',
-                                ref: function ref(input) {
-                                    return _this4.registerInput = input;
-                                },
-                                placeholder: 'Pick a nickname'
-                            }),
-                            _react2.default.createElement(
-                                'button',
-                                null,
-                                _react2.default.createElement(_arrowForward2.default, null)
-                            )
-                        )
-                    )
+                    ) : _react2.default.createElement(_NewUser2.default, { ref: function ref(NewUser) {
+                            return _this4.NewUser = NewUser;
+                        }, register: this.register })
                 ) : _react2.default.createElement(_Preloader2.default, null)
             );
         }
@@ -32174,9 +32157,7 @@ var SendMessage = function (_Component) {
                 { className: 'Adding' },
                 _react2.default.createElement(
                     'form',
-                    { onSubmit: function onSubmit(e) {
-                            return _this2.props.Send(e, _this2.messageInput);
-                        } },
+                    { onSubmit: this.props.Send },
                     _react2.default.createElement('input', {
                         type: 'text',
                         ref: function ref(input) {

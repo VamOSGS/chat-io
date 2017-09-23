@@ -36,11 +36,12 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function() {
-        users.map( (oldUser, i) => { if (oldUser.id == socket.id) {
+        users.map( (oldUser, i) => { console.log(oldUser.id, socket.id);
+            if (oldUser.id == socket.id) {
             users.splice(oldUser.i, 1)
-        }} )
+        }} );
         console.log(users)
-        console.log("Disconnected Socket  " + socket.id)
+        // console.log("Disconnected Socket  " + socket.id)
         io.emit('receive-user', users);
     });
 });

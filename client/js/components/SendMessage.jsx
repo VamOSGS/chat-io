@@ -6,7 +6,7 @@ class SendMessage extends Component {
     render () {
         return  (
             <div className='Adding'>
-                <form onSubmit={e => this.props.Send(e,this.messageInput)} >
+                <form onSubmit={ this.props.Send }>
                     <input
                            type="text"
                            ref={input => this.messageInput = input }

@@ -45,7 +45,6 @@ class App extends Component {
             }, 100)
         })
         this.state.socket.on("receive-user", usersObj => {
-
             this.setState({
                 users: usersObj
             })
@@ -70,7 +69,7 @@ class App extends Component {
 
     register(e) {
         e.preventDefault();
-        let user = this.registerInput.value;
+        let user = this.NewUser.registerInput.value;
         if (user) {
             this.state.socket.emit("new-user", user);
             this.setState({
@@ -79,8 +78,9 @@ class App extends Component {
         }
     }
 
-    handleSend(e, text) {
+    handleSend(e) {
         e.preventDefault();
+        let text = this.Send.messageInput;
         if (text.value) {
             this.state.socket.emit("new-message", text.value);
         }
@@ -136,16 +136,7 @@ class App extends Component {
 
                         </div>
                     </div> :
-                        <div className={'new-user'}>
-                            <form onSubmit={this.register}>
-                                <input
-                                type="text"
-                                ref={input => this.registerInput = input}
-                                placeholder={'Pick a nickname'}
-                                />
-                                <button><MdArrowForward/></button>
-                            </form>
-                        </div>
+                        <NewUser ref={NewUser => this.NewUser = NewUser } register={this.register}/>
                     }
                 </div> : <Preloader/> }
             </div>
