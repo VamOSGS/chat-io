@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import GoSettings from 'react-icons/lib/go/settings';
+import MdCompare from 'react-icons/lib/md/compare';
 
 class Overlay extends Component {
     render () {
@@ -9,7 +9,7 @@ class Overlay extends Component {
                       onClick={this.props.handleTheme}
                       className={'up'}>
 
-                        <GoSettings/>
+                      <MdCompare/>
 
                 </div>
             </div>

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Preloader from './Preloader.jsx';
 import Overlay from './Overlay.jsx';
 import NewUser from './NewUser.jsx';
+import MdArrowForward from 'react-icons/lib/md/arrow-forward';
+
 import SendMessage from './SendMessage.jsx';
 import EmojiTable from './EmojiTable.jsx';
 import MessageBoard from './MessageBoard.jsx';
@@ -38,8 +40,12 @@ class App extends Component {
                     user: messages.users.name
                 }]
             })
+            setTimeout(() => {
+                this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
+            }, 100)
         })
         this.state.socket.on("receive-user", usersObj => {
+
             this.setState({
                 users: usersObj
             })
@@ -62,8 +68,9 @@ class App extends Component {
         document.body.classList.toggle('night');
     }
 
-    register(e, user) {
+    register(e) {
         e.preventDefault();
+        let user = this.registerInput.value;
         if (user) {
             this.state.socket.emit("new-user", user);
             this.setState({
@@ -128,10 +135,18 @@ class App extends Component {
                             </div>
 
                         </div>
-                    </div> : <NewUser
-                                register={this.register}
-                                socket={this.state.socket}
-                            /> }
+                    </div> :
+                        <div className={'new-user'}>
+                            <form onSubmit={this.register}>
+                                <input
+                                type="text"
+                                ref={input => this.registerInput = input}
+                                placeholder={'Pick a nickname'}
+                                />
+                                <button><MdArrowForward/></button>
+                            </form>
+                        </div>
+                    }
                 </div> : <Preloader/> }
             </div>
         );

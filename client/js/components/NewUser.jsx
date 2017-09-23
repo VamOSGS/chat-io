@@ -5,7 +5,7 @@ class NewUser extends Component {
     render () {
         return  (
             <div className={'new-user'}>
-                <form onSubmit={ e => this.props.register(e, this.registerInput.value )}>
+                <form onSubmit={this.props.register}>
                     <input
                            type="text"
                            ref={input => this.registerInput = input}

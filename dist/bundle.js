@@ -31619,6 +31619,10 @@ var _NewUser = __webpack_require__(521);
 
 var _NewUser2 = _interopRequireDefault(_NewUser);
 
+var _arrowForward = __webpack_require__(515);
+
+var _arrowForward2 = _interopRequireDefault(_arrowForward);
+
 var _SendMessage = __webpack_require__(527);
 
 var _SendMessage2 = _interopRequireDefault(_SendMessage);
@@ -31686,8 +31690,12 @@ var App = function (_Component) {
                         user: messages.users.name
                     }])
                 });
+                setTimeout(function () {
+                    _this2.MessageBoard.board.scrollTop = _this2.MessageBoard.board.scrollHeight;
+                }, 100);
             });
             this.state.socket.on("receive-user", function (usersObj) {
+
                 _this2.setState({
                     users: usersObj
                 });
@@ -31714,8 +31722,9 @@ var App = function (_Component) {
         }
     }, {
         key: 'register',
-        value: function register(e, user) {
+        value: function register(e) {
             e.preventDefault();
+            var user = this.registerInput.value;
             if (user) {
                 this.state.socket.emit("new-user", user);
                 this.setState({
@@ -31787,10 +31796,26 @@ var App = function (_Component) {
                                 })
                             )
                         )
-                    ) : _react2.default.createElement(_NewUser2.default, {
-                        register: this.register,
-                        socket: this.state.socket
-                    })
+                    ) : _react2.default.createElement(
+                        'div',
+                        { className: 'new-user' },
+                        _react2.default.createElement(
+                            'form',
+                            { onSubmit: this.register },
+                            _react2.default.createElement('input', {
+                                type: 'text',
+                                ref: function ref(input) {
+                                    return _this4.registerInput = input;
+                                },
+                                placeholder: 'Pick a nickname'
+                            }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                _react2.default.createElement(_arrowForward2.default, null)
+                            )
+                        )
+                    )
                 ) : _react2.default.createElement(_Preloader2.default, null)
             );
         }
@@ -31972,9 +31997,9 @@ var _react = __webpack_require__(41);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _settings = __webpack_require__(520);
+var _compare = __webpack_require__(532);
 
-var _settings2 = _interopRequireDefault(_settings);
+var _compare2 = _interopRequireDefault(_compare);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32004,7 +32029,7 @@ var Overlay = function (_Component) {
                     {
                         onClick: this.props.handleTheme,
                         className: 'up' },
-                    _react2.default.createElement(_settings2.default, null)
+                    _react2.default.createElement(_compare2.default, null)
                 )
             );
         }
@@ -32016,46 +32041,7 @@ var Overlay = function (_Component) {
 exports.default = Overlay;
 
 /***/ }),
-/* 520 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];for (var key in source) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-                target[key] = source[key];
-            }
-        }
-    }return target;
-};
-
-var _react = __webpack_require__(41);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactIconBase = __webpack_require__(138);
-
-var _reactIconBase2 = _interopRequireDefault(_reactIconBase);
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
-
-var GoSettings = function GoSettings(props) {
-    return _react2.default.createElement(_reactIconBase2.default, _extends({ viewBox: '0 0 40 40' }, props), _react2.default.createElement('g', null, _react2.default.createElement('path', { d: 'm5 35h5v-7.5h-5v7.5z m5-30h-5v12.5h5v-12.5z m12.5 0h-5v5h5v-5z m-20 20h10v-5h-10v5z m15 10h5v-15h-5v15z m-2.5-17.5h10v-5h-10v5z m20-12.5h-5v15h5v-15z m-7.5 17.5v5h10v-5h-10z m2.5 12.5h5v-5h-5v5z' })));
-};
-
-exports.default = GoSettings;
-module.exports = exports['default'];
-
-/***/ }),
+/* 520 */,
 /* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32103,9 +32089,7 @@ var NewUser = function (_Component) {
                 { className: 'new-user' },
                 _react2.default.createElement(
                     'form',
-                    { onSubmit: function onSubmit(e) {
-                            return _this2.props.register(e, _this2.registerInput.value);
-                        } },
+                    { onSubmit: this.props.register },
                     _react2.default.createElement('input', {
                         type: 'text',
                         ref: function ref(input) {
@@ -32435,6 +32419,47 @@ var OnlineUsers = function (_Component) {
 }(_react.Component);
 
 exports.default = OnlineUsers;
+
+/***/ }),
+/* 531 */,
+/* 532 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+var _react = __webpack_require__(41);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactIconBase = __webpack_require__(138);
+
+var _reactIconBase2 = _interopRequireDefault(_reactIconBase);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var MdCompare = function MdCompare(props) {
+    return _react2.default.createElement(_reactIconBase2.default, _extends({ viewBox: '0 0 40 40' }, props), _react2.default.createElement('g', null, _react2.default.createElement('path', { d: 'm31.6 5c1.8 0 3.4 1.6 3.4 3.4v23.2c0 1.8-1.6 3.4-3.4 3.4h-8.2v-15l8.2 10v-21.6h-8.2v-3.4h8.2z m-15 25v-10l-8.2 10h8.2z m0-25v-3.4h3.4v36.8h-3.4v-3.4h-8.2c-1.8 0-3.4-1.6-3.4-3.4v-23.2c0-1.8 1.6-3.4 3.4-3.4h8.2z' })));
+};
+
+exports.default = MdCompare;
+module.exports = exports['default'];
 
 /***/ })
 /******/ ]);

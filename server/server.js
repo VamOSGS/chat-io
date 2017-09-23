@@ -15,7 +15,6 @@ http.listen(process.env.PORT || 3000, function(){
 
 io.on('connection', function (socket) {
     console.log("Connected Socket  " + socket.id)
-    io.emit('get-users', users);
     socket.on('new-user', function (username) {
         users = [...users, {
             name: username,
@@ -40,6 +39,7 @@ io.on('connection', function (socket) {
         users.map( (oldUser, i) => { if (oldUser.id == socket.id) {
             users.splice(oldUser.i, 1)
         }} )
+        console.log(users)
         console.log("Disconnected Socket  " + socket.id)
         io.emit('receive-user', users);
     });
