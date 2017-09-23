@@ -31726,17 +31726,21 @@ var App = function (_Component) {
     }, {
         key: 'handleSend',
         value: function handleSend(e, text) {
+            var _this3 = this;
+
             e.preventDefault();
             if (text.value) {
                 this.state.socket.emit("new-message", text.value);
             }
             text.value = null;
-            this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
+            setTimeout(function () {
+                _this3.MessageBoard.board.scrollTop = _this3.MessageBoard.board.scrollHeight;
+            }, 1);
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             return _react2.default.createElement(
                 'div',
@@ -31766,7 +31770,7 @@ var App = function (_Component) {
                                 { className: 'SMS' },
                                 _react2.default.createElement(_MessageBoard2.default, {
                                     ref: function ref(MessageBoard) {
-                                        return _this3.MessageBoard = MessageBoard;
+                                        return _this4.MessageBoard = MessageBoard;
                                     },
                                     messages: this.state.messages
                                 }),
@@ -31776,7 +31780,7 @@ var App = function (_Component) {
                                 }),
                                 _react2.default.createElement(_SendMessage2.default, {
                                     ref: function ref(Send) {
-                                        return _this3.Send = Send;
+                                        return _this4.Send = Send;
                                     },
                                     Send: this.handleSend,
                                     AddEmoji: this.handleEmoji

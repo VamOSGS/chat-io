@@ -78,7 +78,9 @@ class App extends Component {
             this.state.socket.emit("new-message", text.value);
         }
         text.value = null;
-        this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
+        setTimeout(() => {
+            this.MessageBoard.board.scrollTop = this.MessageBoard.board.scrollHeight;
+        }, 1)
     }
 
 
