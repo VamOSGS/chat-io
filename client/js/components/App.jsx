@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Preloader from './Preloader.jsx';
 import Overlay from './Overlay.jsx';
 import NewUser from './NewUser.jsx';
@@ -50,7 +50,7 @@ class App extends Component {
             })
         });
         setTimeout(() => {
-            this.setState({load: true})
+            this.setState({ load: true })
         }, 1200)
     }
 
@@ -101,44 +101,44 @@ class App extends Component {
                         className={this.state.reigistred ? 'wrap active' : 'wrap'}
                     >
 
-                    <h1 className={this.state.reigistred ?
-                        'heading max-width' :
-                        'heading'}>
-                        {this.state.reigistred ? '' : 'Welcome to '}
-                        chat-IO
+                        <h1 className={this.state.reigistred ?
+                            'heading max-width' :
+                            'heading'}>
+                            {this.state.reigistred ? '' : 'Welcome to '}
+                            chat-IO
                     </h1>
 
-                    {this.state.reigistred ? <div className={'registred'}>
-                        <Overlay handleTheme={this.handleTheme}/>
-                        <div className={'flex'}>
+                        {this.state.reigistred ? <div className={'registred'}>
+                            <Overlay handleTheme={this.handleTheme} />
+                            <div className={'flex'}>
 
-                            <OnlineUsers users={this.state.users}/>
+                                <OnlineUsers users={this.state.users} />
 
-                            <div className='SMS'>
+                                <div className='SMS'>
 
-                                <MessageBoard
-                                    ref={MessageBoard => this.MessageBoard = MessageBoard}
-                                    messages={this.state.messages}
-                                />
+                                    <MessageBoard
+                                        ref={MessageBoard => this.MessageBoard = MessageBoard}
+                                        messages={this.state.messages}
+                                    />
 
-                                <EmojiTable
-                                    emojis={this.state.emojis}
-                                    setEmoji={this.setEmoji}
-                                />
+                                    <EmojiTable
+                                        emojis={this.state.emojis}
+                                        setEmoji={this.setEmoji}
+                                    />
 
-                                <SendMessage
-                                    ref={Send => this.Send = Send}
-                                    Send={this.handleSend}
-                                    AddEmoji={this.handleEmoji}
-                                />
+                                    <SendMessage
+                                        ref={Send => this.Send = Send}
+                                        Send={this.handleSend}
+                                        AddEmoji={this.handleEmoji}
+                                    />
+
+                                </div>
 
                             </div>
-
-                        </div>
-                    </div> :
-                        <NewUser ref={NewUser => this.NewUser = NewUser } register={this.register}/>
-                    }
-                </div> : <Preloader/> }
+                        </div> :
+                            <NewUser ref={NewUser => this.NewUser = NewUser} register={this.register} />
+                        }
+                    </div> : <Preloader />}
             </div>
         );
     }
